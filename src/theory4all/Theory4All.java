@@ -37,8 +37,7 @@ public class Theory4All{
             user.registrarUsuario();
             assert user != null;
             usuario.add(index,user);
-            cadastroUsuario(usuario.get(index));
-            index++;
+            cadastroUsuario(usuario.get(index++));
         }// End if   
     }// End main()
 
