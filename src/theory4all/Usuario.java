@@ -4,10 +4,11 @@
  * and open the template in the editor.
  */
 package theory4all;
+import java.util.Scanner;
 
 /**
  *
- * @author vinicius
+ * @author Vinicius Francisco da Silva
  */
 class Usuario{
     private int id;
@@ -16,7 +17,25 @@ class Usuario{
     private String login;
     private String email;
     private String senha;
+    private static int id_init = 0;
+    
+    public Usuario(int id,int classificacaoGeral,String nome,String login,String email,String senha){
+        setId(id);
+        setClassificacaoGeral(classificacaoGeral);
+        setNome(nome);
+        setLogin(login);
+        setEmail(email);
+        setSenha(senha);
+    }// End Usuario()
 
+    public Usuario(){ 
+        setId(-1);
+        setNome("");
+        setLogin("");
+        setEmail("");
+        setSenha("");
+    }// End usuario()
+    
     public int getId(){
         return id;
     }// End getId
@@ -64,4 +83,16 @@ class Usuario{
     public void setSenha(String senha){
         this.senha = senha;
     }// End setSenha()
+    
+    public void registrarUsuario(){
+        final Scanner scanner = new Scanner(System.in);
+        try{
+            setId(++id_init);
+            setClassificacaoGeral(0);
+            setNome(scanner.nextLine());
+            setLogin(scanner.nextLine());
+            setEmail(scanner.nextLine());
+            setSenha(scanner.nextLine());
+        }catch(Exception e){ e.printStackTrace(); }// End catch
+    }// End registrarUsuario(
 }// End class Usuario
