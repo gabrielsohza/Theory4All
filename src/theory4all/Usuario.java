@@ -106,6 +106,7 @@ class Usuario{
             System.out.print("Senha: \t");
             setSenha(scanner.nextLine());
             System.out.println("");
+            
         System.out.println("[ ======= CADASTRO CONCLUÍDO COM SUCESSO ======= ]\n");
         }catch(Exception e){ e.printStackTrace(); }// End catch
     }// End registrarUsuario(
