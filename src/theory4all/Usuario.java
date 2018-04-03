@@ -86,13 +86,27 @@ class Usuario{
     
     public void registrarUsuario(){
         final Scanner scanner = new Scanner(System.in);
+        System.out.println("[ ============ CADASTRO DE USUÁRIOS ============ ]\n");
         try{
             setId(++id_init);
             setClassificacaoGeral(0);
+            
+            System.out.print("Nome: \t");
             setNome(scanner.nextLine());
+            System.out.println("");
+            
+            System.out.print("Login: \t");
             setLogin(scanner.nextLine());
+            System.out.println("");
+            
+            System.out.print("Email: \t");
             setEmail(scanner.nextLine());
+            System.out.println("");
+            
+            System.out.print("Senha: \t");
             setSenha(scanner.nextLine());
+            System.out.println("");
+        System.out.println("[ ======= CADASTRO CONCLUÍDO COM SUCESSO ======= ]\n");
         }catch(Exception e){ e.printStackTrace(); }// End catch
     }// End registrarUsuario(
 }// End class Usuario
