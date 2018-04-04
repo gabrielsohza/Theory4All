@@ -43,12 +43,30 @@ public class Theory4All{
 
     public static void cadastroUsuario(Usuario usuario){
         assert dataoutputstream != null;
-        try{    
+        try{
+            dataoutputstream.writeShort((short)GetByte.getByte(usuario.getNome()) + 
+                    (short)GetByte.INTEGER +
+                    (short)GetByte.INTEGER +
+                    (short)GetByte.getByte(usuario.getLogin()) + 
+                    (short)GetByte.getByte(usuario.getEmail()) + 
+                    (short)GetByte.getByte(usuario.getSenha()));
+            
+            dataoutputstream.writeShort((short)GetByte.INTEGER);
             dataoutputstream.writeInt(usuario.getId());
+            
+            dataoutputstream.writeShort((short)GetByte.INTEGER);
             dataoutputstream.writeInt(usuario.getClassificacaoGeral());
+            
+            dataoutputstream.writeShort((short)GetByte.getByte(usuario.getNome()));
             dataoutputstream.writeUTF(usuario.getNome());
+            
+            dataoutputstream.writeShort((short)GetByte.getByte(usuario.getLogin()));
             dataoutputstream.writeUTF(usuario.getLogin());
+            
+            dataoutputstream.writeShort((short)GetByte.getByte(usuario.getEmail()));
             dataoutputstream.writeUTF(usuario.getEmail());
+            
+            dataoutputstream.writeShort((short)GetByte.getByte(usuario.getSenha()));
             dataoutputstream.writeUTF(usuario.getSenha());
         }catch(Exception e){
             e.printStackTrace();
