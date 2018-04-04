@@ -15,7 +15,8 @@ class GetByte{
     public static final int LONG = (Long.SIZE / 8);
     public static final int FLOAT = (Float.SIZE / 8);
     public static final int DOUBLE = (Double.SIZE / 8);
-    public static final int CHAR = (Character.SIZE / 8);
+    public static final int CHAR_ASCII = (Character.SIZE / 8); // Valor em Bytes de um caractér sem acentuação. Valor ASCII
+    public static final int CHAR = ((Character.SIZE / 8) + 1); // Valor em Bytes de um caractér com acentuação.
 
     /**
      * 
@@ -26,10 +27,10 @@ class GetByte{
         int valor = 0;
         for(int i = 0; i < str.length(); i++){
             if((int)str.charAt(i) >= 32 && (int)str.charAt(i) <= 126){
-                valor += 1;
+                valor += CHAR_ASCII;
             }// End if
             else{
-                valor += 2;
+                valor += CHAR;
             }// End else if
         }// End for
         return valor;
