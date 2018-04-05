@@ -78,7 +78,7 @@ public class ArquivoSequencial<T>{
         scanner = new Scanner(System.in);
         System.out.println("Digite o código do usuário");
         int codigo = scanner.nextInt();
-        int pos = Sort.pesquisaBinaria(sequencial,codigo);
+        int pos = Sort.pesquisaBinariaUsuario(sequencial,codigo);
         if(pos != -1){
             //clona
             try{
@@ -122,7 +122,7 @@ public class ArquivoSequencial<T>{
         scanner = new Scanner(System.in);
         System.out.println("Digite o código do usuário que deseja remover");
         int codigo = scanner.nextInt();
-        int pos = Sort.pesquisaBinaria(sequencial,codigo);
+        int pos = Sort.pesquisaBinariaUsuario(sequencial,codigo);
         if(pos != -1){
             sequencial.remove(sequencial.get(pos));
             // remove usando lapide no arquivo

@@ -28,20 +28,17 @@ public class Theory4All extends DataBase{
      */
     public static void main(String[] args)throws Exception{
         index = 0;
-        db = new DataBase();
-       
-           if(!db.createTable("Usuario.db","w")){      
-               throw new Exception("erro:");
-            }// End if   
+        db = new DataBase();         
+        if(usuario == null){
             usuario = new ArrayList<>();
-            if(usuario.isEmpty()){
-                while(true){
-                    user = new Usuario();
-                    user.registrarUsuario();
-                    assert user != null;
-                    usuario.add(index,user);
-                    ArquivoSequencial.cadastroUsuario(usuario.get(index++),db);
-            }// End while
+            if(!db.createTable("Usuario.db","w")){      
+                throw new Exception("erro:");
+            }// End if  
+            user = new Usuario();
+            user.registrarUsuario();
+            assert user != null;
+            usuario.add(index,user);
+            ArquivoSequencial.cadastroUsuario(usuario.get(index++),db);
         }// End if   
     }// End main()
 }// End class Theory4All
