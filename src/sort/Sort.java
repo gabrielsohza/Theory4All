@@ -3,17 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package theory4all;
-
+package sort;
 import java.util.ArrayList;
-
+import entidades.Usuario;
 /**
  *
  * @author vinicius
  */
-class Sort{
+public class Sort{
    
-   public int pesquisaBinaria(ArrayList<Usuario> usuario, int id){
+   public static int pesquisaBinaria(ArrayList<Usuario> usuario, int id){
         int esq = 0;
    	int dir = (usuario.size()-1);
    	int meio = -1;

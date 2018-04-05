@@ -3,13 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package theory4all;
+package entidades;
 
 /**
  *
  * @author Vinicius Francisco da Silva
  */
-class Unidade{
+public class Unidade{
     private int id;
     private byte classificacao;
     private String nome;

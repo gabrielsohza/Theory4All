@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package theory4all;
+package getbyte;
 /**
  *
  * @author Vinicius Francisco da Silva
  */
-class GetByte{
+public class GetByte{
     public static final int BYTE = (Byte.SIZE / 8);
     public static final int SHORT = (Short.SIZE / 8);
     public static final int INTEGER = (Integer.SIZE / 8);

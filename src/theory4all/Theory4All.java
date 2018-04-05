@@ -8,39 +8,40 @@ package theory4all;
 import java.io.DataOutputStream;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
-import static theory4all.ArquivoSequencial.cadastroUsuario;
+import database.DataBase;
+import entidades.Usuario;
+import arquivosequencial.ArquivoSequencial;
 
 /**
  *
  * @author Vinicius Francisco da Silva
  */
-public class Theory4All{
+public class Theory4All extends DataBase{
     public static int index;
     public static ArrayList<Usuario> usuario;
     public static Usuario user;
     public static DataOutputStream dataoutputstream;
+    public static DataBase db;
     
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args){
+    public static void main(String[] args)throws Exception{
         index = 0;
-        try{    
-           dataoutputstream = new DataOutputStream(new FileOutputStream("Usuários.txt"));
-        }catch(Exception e){
-            e.printStackTrace();
-        }// End catch
-        usuario = new ArrayList<>();
-        if(usuario.isEmpty()){
-            while(true){
-                user = new Usuario();
-                user.registrarUsuario();
-                assert user != null;
-                usuario.add(index,user);
-                cadastroUsuario(usuario.get(index++));
+        db = new DataBase();
+       
+           if(!db.createTable("Usuario.db","w")){      
+               throw new Exception("erro:");
+            }// End if   
+            usuario = new ArrayList<>();
+            if(usuario.isEmpty()){
+                while(true){
+                    user = new Usuario();
+                    user.registrarUsuario();
+                    assert user != null;
+                    usuario.add(index,user);
+                    ArquivoSequencial.cadastroUsuario(usuario.get(index++),db);
             }// End while
         }// End if   
     }// End main()
 }// End class Theory4All
-
-

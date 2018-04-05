@@ -3,13 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package theory4all;
+package entidades;
 
 /**
  *
  * @author Stefany Gaspar
  */
-class Pergunta{
+public class Pergunta{
   private int id;
   private byte quantidadeDeAlternativas;
   private byte alternativaCorreta;
