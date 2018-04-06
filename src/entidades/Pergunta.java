@@ -6,7 +6,7 @@
 package entidades;
 
 /**
- *
+ * @author Stefany Gaspar
  * @author Vinicius Francisco da Silva
  */
 public class Pergunta implements Entidade{
