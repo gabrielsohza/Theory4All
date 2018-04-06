@@ -27,10 +27,10 @@ public class GetByte{
         int valor = 0;
         for(int i = 0; i < str.length(); i++){
             if((int)str.charAt(i) >= 32 && (int)str.charAt(i) <= 126){
-                valor += CHAR_ASCII;
+                valor += 1;
             }// End if
             else{
-                valor += CHAR;
+                valor += 2;
             }// End else if
         }// End for
         return valor;

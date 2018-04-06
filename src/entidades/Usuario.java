@@ -7,10 +7,10 @@ package entidades;
 import java.util.Scanner;
 
 /**
- *
+ * 
  * @author Vinicius Francisco da Silva
  */
-public class Usuario{
+public class Usuario implements Entidade{
     private int id;
     private int classificacaoGeral;
     private String nome;
@@ -36,10 +36,12 @@ public class Usuario{
         setSenha("");
     }// End usuario()
     
+    
     public int getId(){
         return id;
     }// End getId
 
+    
     public void setId(int id){
         this.id = id;
     }// End setId()
@@ -52,10 +54,12 @@ public class Usuario{
         this.classificacaoGeral = classificacaoGeral;
     }// End setClassificacaoGeral()
 
+    
     public String getNome(){
         return nome;
     }// End getNome()
 
+    
     public void setNome(String nome){
         this.nome = nome;
     }// End setNome()
@@ -83,6 +87,38 @@ public class Usuario{
     public void setSenha(String senha){
         this.senha = senha;
     }// End setSenha()
+    
+    public String getAcess(String metod){
+        String str = null;
+        if(metod.equals("getClassificacaoGeral")){
+            str = String.valueOf(getClassificacaoGeral());
+        }else if(metod.equals("getNome")){
+            str = String.valueOf(getNome());
+        }else if(metod.equals("getLogin")){
+            str = String.valueOf(getLogin());
+        }else if(metod.equals("getEmail")){
+            str = String.valueOf(getEmail());
+        }else if(metod.equals("getSenha")){
+            str = String.valueOf(getSenha());
+        }// End else if
+        return str;
+     }// End metod
+      
+     public String setAcess(String metod,String value){
+         String str = null;
+        if(metod.equals("setClassificacaoGeral")){
+            setClassificacaoGeral(Integer.parseInt(value));
+        }else if(metod.equals("setNome")){
+            setNome(value);
+        }else if(metod.equals("setLogin")){
+            setLogin(value);
+        }else if(metod.equals("setEmail")){
+            setEmail(value);
+        }else if(metod.equals("setSenha")){
+            setSenha(value);
+        }// End else if
+         return str;
+     }// End metod
     
     public void registrarUsuario(){
         final Scanner scanner = new Scanner(System.in);

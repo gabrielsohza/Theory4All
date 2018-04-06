@@ -4,6 +4,11 @@
  * and open the template in the editor.
  */
 package database;
+
+import arquivosequencial.ArquivoSequencial;
+import entidades.Entidade;
+import entidades.Pergunta;
+import entidades.Usuario;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.FileInputStream;
@@ -15,13 +20,14 @@ import java.util.ArrayList;
  *
  * @author Vinicius Francisco da Silva
  */
-public class DataBase{
+public class DataBase<T extends Entidade>{
     private String nome;
     private FileOutputStream fileoutputstream;
     private FileInputStream fileinputstream;
     private DataOutputStream dataoutputstream;
     private DataInputStream datainputstream;
-    //public ArrayList<> arrayList;
+    public ArrayList<T> list;
+    private ArquivoSequencial<T> arquivo;
     
     /**
      * 
@@ -29,6 +35,8 @@ public class DataBase{
     public DataBase(){
         fileoutputstream = null;
         fileoutputstream = null;
+        this.list = new ArrayList<T>();
+        arquivo = new ArquivoSequencial<>();
     }// End DataBase
 
     /**
@@ -94,7 +102,24 @@ public class DataBase{
     public void setDatainputstream(DataInputStream datainputstream) {
         this.datainputstream = datainputstream;
     }// End setDatainputstream()
+
+    public ArrayList<T> getArrayList(){
+        return list;
+    }// End getArrayList()
+
+    public void setArrayList(ArrayList<T> list){
+        this.list = list;
+    }// End setArrayList()
+
+    public ArquivoSequencial<T> getArquivo(){
+        return arquivo;
+    }// End getArquivo()
+
+    public void setArquivo(ArquivoSequencial<T> arquivo){
+        this.arquivo = arquivo;
+    }// End setArquivo
      
+    
     /**
      * 
      * @param nome

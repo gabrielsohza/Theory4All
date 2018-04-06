@@ -10,92 +10,96 @@ import java.io.DataOutputStream;
 import java.util.Scanner;
 import entidades.Usuario;
 import getbyte.GetByte;
-import sort.Sort;
+import search.Search;
 import java.util.ArrayList;
 import database.DataBase;
+import entidades.Entidade;
 
 /**
- *
  * @author Vinicius Francisco da Silva
+ * @author Stefany Gaspar
  */
-public class ArquivoSequencial<T>{
+public class ArquivoSequencial<T extends Entidade>{ 
    public static Scanner scanner;
-    public static void cadastroUsuario(Usuario usuario, DataBase db){
+   public Search search = new Search();
+   
+    public void cadastroUsuario(T valor,int index,DataBase db){
         assert db.getDataoutputstream() != null;
         try{
-            db.getDataoutputstream().writeShort((short)GetByte.getByte(usuario.getNome()) + 
-                    (short)GetByte.INTEGER +
-                    (short)GetByte.INTEGER +
-                    (short)GetByte.getByte(usuario.getLogin()) + 
-                    (short)GetByte.getByte(usuario.getEmail()) + 
-                    (short)GetByte.getByte(usuario.getSenha()));
+            db.getDataoutputstream().writeUTF(String.valueOf(
+                    GetByte.getByte(valor.getAcess("getNome"))  + 
+                    GetByte.getByte(valor.getAcess("getLogin")) + 
+                    GetByte.getByte(valor.getAcess("getEmail")) + 
+                    GetByte.getByte(valor.getAcess("getSenha")) +
+                    GetByte.INTEGER +
+                    GetByte.INTEGER));
             
-            db.getDataoutputstream().writeShort((short)GetByte.INTEGER);
-            db.getDataoutputstream().writeInt(usuario.getId());
+            db.getDataoutputstream().writeUTF((String.valueOf(GetByte.INTEGER)));
+            db.getDataoutputstream().writeUTF(String.valueOf(valor.getId()));
             
-            db.getDataoutputstream().writeShort((short)GetByte.INTEGER);
-            db.getDataoutputstream().writeInt(usuario.getClassificacaoGeral());
+            db.getDataoutputstream().writeUTF(String.valueOf(GetByte.INTEGER));
+            db.getDataoutputstream().writeUTF(String.valueOf(valor.getAcess("getClassificacaoGeral")));
             
-            db.getDataoutputstream().writeShort((short)GetByte.getByte(usuario.getNome()));
-            db.getDataoutputstream().writeUTF(usuario.getNome());
+            db.getDataoutputstream().writeUTF(String.valueOf(GetByte.getByte(valor.getAcess("getNome"))));
+            db.getDataoutputstream().writeUTF(valor.getAcess("getNome"));
             
-            db.getDataoutputstream().writeShort((short)GetByte.getByte(usuario.getLogin()));
-            db.getDataoutputstream().writeUTF(usuario.getLogin());
+            db.getDataoutputstream().writeUTF(String.valueOf(GetByte.getByte(valor.getAcess("getLogin"))));
+            db.getDataoutputstream().writeUTF(valor.getAcess("getLogin"));
             
-            db.getDataoutputstream().writeShort((short)GetByte.getByte(usuario.getEmail()));
-            db.getDataoutputstream().writeUTF(usuario.getEmail());
-            
-            db.getDataoutputstream().writeShort((short)GetByte.getByte(usuario.getSenha()));
-            db.getDataoutputstream().writeUTF(usuario.getSenha());
+            db.getDataoutputstream().writeUTF(String.valueOf(GetByte.getByte(valor.getAcess("getEmail"))));
+            db.getDataoutputstream().writeUTF(valor.getAcess("getEmail"));
+       
+            db.getDataoutputstream().writeUTF(String.valueOf(GetByte.getByte(valor.getAcess("getSenha"))));
+            db.getDataoutputstream().writeUTF(valor.getAcess("getSenha"));
         }catch(Exception e){
             e.printStackTrace();
         }// End catch 
     }// End cadastroUsuario()
-    
-    public static void ler(ArquivoSequencial<Usuario> sequencial,DataInputStream datainputstream) throws Exception{
-        int ultimoId = datainputstream.readInt();
+   
+    public static void ler(DataBase db) throws Exception{
+        assert db.getDatainputstream() != null;
+        int ultimoId = db.getDatainputstream().readInt();
         int id,classificacao;
         String nome,login,email,senha;
         
         System.out.println("========== LISTA DE USUÁRIOS ==========");
         
         for(int i = 0; i < ultimoId; i++){
-            id = datainputstream.readInt();
-            classificacao = datainputstream.readInt();
-            nome = datainputstream.readUTF();
+            id = db.getDatainputstream().readInt();
+            classificacao = db.getDatainputstream().readInt();
+            nome = db.getDatainputstream().readUTF();
             //nome = datainputstream.readUTF();
-            
-            login = datainputstream.readUTF();
-            email = datainputstream.readUTF();
-            senha = datainputstream.readUTF();
+            login = db.getDatainputstream().readUTF();
+            email = db.getDatainputstream().readUTF();
+            senha = db.getDatainputstream().readUTF();
             
             System.out.println(id + " " + classificacao + " " + nome + " " + login + " " + email + " " + senha);
         }// End for        
     }// End ler()
     
-    public static void atualizar(ArrayList<Usuario> sequencial){
+    public void atualizar(DataBase db, T value){
         System.out.println("========== ATUALIZAR ========== ");
         scanner = new Scanner(System.in);
         System.out.println("Digite o código do usuário");
         int codigo = scanner.nextInt();
-        int pos = Sort.pesquisaBinariaUsuario(sequencial,codigo);
+        int pos = search.pesquisaBinaria(db.getArrayList(),codigo);
         if(pos != -1){
             //clona
             try{
                 System.out.print("Nome: \t");
-                sequencial.get(pos).setNome(scanner.nextLine());
+                value.setAcess("setNome",scanner.nextLine());
                 System.out.println("");
             
                 System.out.print("Login: \t");
-                sequencial.get(pos).setLogin(scanner.nextLine());
+                value.setAcess("setLogin",scanner.nextLine());
                 System.out.println("");
             
                 System.out.print("Email: \t");
-                sequencial.get(pos).setEmail(scanner.nextLine());
+                value.setAcess("setEmail",scanner.nextLine());
                 System.out.println("");
             
                 System.out.print("Senha: \t");
-                sequencial.get(pos).setSenha(scanner.nextLine());
+                value.setAcess("setSenha",scanner.nextLine());
                 System.out.println("");
             
                 System.out.println("[ ======= DESEJA ATUALIZAR? [S] SIM / [N] NÃO ======= ]\n");
@@ -117,14 +121,14 @@ public class ArquivoSequencial<T>{
         }// fim else  
     }// End atualizar()
     
-    public static void remove(ArrayList <Usuario> sequencial){
+    public void remove(ArrayList <T> value){
         System.out.println("========== REMOVER ========== ");
         scanner = new Scanner(System.in);
         System.out.println("Digite o código do usuário que deseja remover");
         int codigo = scanner.nextInt();
-        int pos = Sort.pesquisaBinariaUsuario(sequencial,codigo);
+        int pos = search.pesquisaBinaria(value,codigo);
         if(pos != -1){
-            sequencial.remove(sequencial.get(pos));
+            value.remove(value.get(pos));
             // remove usando lapide no arquivo
         }else{
             System.out.println("Usuário não existe!");

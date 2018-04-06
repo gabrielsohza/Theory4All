@@ -11,34 +11,29 @@ import java.util.ArrayList;
 import database.DataBase;
 import entidades.Usuario;
 import arquivosequencial.ArquivoSequencial;
+import entidades.Pergunta;
+import entidades.Unidade;
 
 /**
  *
  * @author Vinicius Francisco da Silva
  */
-public class Theory4All extends DataBase{
+public class Theory4All{
     public static int index;
-    public static ArrayList<Usuario> usuario;
     public static Usuario user;
-    public static DataOutputStream dataoutputstream;
-    public static DataBase db;
-    
+    public static DataBase<Usuario> db;
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args)throws Exception{
         index = 0;
-        db = new DataBase();         
-        if(usuario == null){
-            usuario = new ArrayList<>();
-            if(!db.createTable("Usuario.db","w")){      
-                throw new Exception("erro:");
-            }// End if  
-            user = new Usuario();
-            user.registrarUsuario();
-            assert user != null;
-            usuario.add(index,user);
-            ArquivoSequencial.cadastroUsuario(usuario.get(index++),db);
-        }// End if   
+        db = new DataBase<>();
+        if(!db.createTable("Usuario.db","w")){      
+            throw new Exception("erro:");
+        }// End if  
+        user = new Usuario();
+        user.registrarUsuario();
+        db.getArrayList().add(index,user); 
+        db.getArquivo().cadastroUsuario(db.getArrayList().get(index),index++,db);
     }// End main()
 }// End class Theory4All
