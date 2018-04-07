@@ -35,13 +35,11 @@ public class Usuario implements Entidade{
         setEmail("");
         setSenha("");
     }// End usuario()
-    
-    
+      
     public int getId(){
         return id;
     }// End getId
 
-    
     public void setId(int id){
         this.id = id;
     }// End setId()
@@ -116,34 +114,19 @@ public class Usuario implements Entidade{
             setEmail(value);
         }else if(metod.equals("setSenha")){
             setSenha(value);
-        }// End else if
+        }else{
+           // throw new Exception("erro");
+        }// End else
          return str;
      }// End metod
-    
-    public void registrarUsuario(){
-        final Scanner scanner = new Scanner(System.in);
-        System.out.println("[ ============ CADASTRO DE USUÁRIOS ============ ]\n");
-        try{
-            setId(++id_init);
-            setClassificacaoGeral(0);
-            
-            System.out.print("Nome: \t");
-            setNome(scanner.nextLine());
-            System.out.println("");
-            
-            System.out.print("Login: \t");
-            setLogin(scanner.nextLine());
-            System.out.println("");
-            
-            System.out.print("Email: \t");
-            setEmail(scanner.nextLine());
-            System.out.println("");
-            
-            System.out.print("Senha: \t");
-            setSenha(scanner.nextLine());
-            System.out.println("");
-            
-            System.out.println("[ ======= CADASTRO CONCLUÍDO COM SUCESSO ======= ]\n");
-        }catch(Exception e){ e.printStackTrace(); }// End catch
-    }// End registrarUsuario(
+     
+     public static int getIdInit(){
+         return ++id_init;
+     }// End getIndex()
+     
+    @Override
+    public Object clonar() throws CloneNotSupportedException{
+        super.clone();
+        return new Usuario(getId(),getClassificacaoGeral(),getNome(),getLogin(),getEmail(),getSenha());
+    }// End clone()
 }// End class Usuario

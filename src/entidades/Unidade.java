@@ -74,4 +74,14 @@ public class Unidade implements Entidade{
          }// End else if
          return str;
      }// End metod()
+     
+     @Override
+     public Object clonar() throws CloneNotSupportedException{
+         super.clone();
+         return new Unidade(getId(),getClassificacao(),getNome());
+     }// End clonar()
+
+    public void setClassificacaoGeral(byte b) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }// End class Unidade

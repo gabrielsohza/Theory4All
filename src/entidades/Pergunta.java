@@ -15,6 +15,12 @@ public class Pergunta implements Entidade{
   private byte alternativaCorreta;
   private String pergunta;
   
+  public Pergunta(int id,byte quantidadeDeAlternativas,byte alternativaCorreta,String pergunta){
+      setId(id);
+      setQuantidadeDeAlternativas(quantidadeDeAlternativas);
+      setAltenativaCorreta(alternativaCorreta);
+      setPergunta(pergunta);
+  }// End Pergunta()
   
   public int getId(){
        return id;
@@ -76,4 +82,10 @@ public class Pergunta implements Entidade{
          }// End else if
          return str;
      }// End metod()
+     
+     @Override
+     public Object clonar() throws CloneNotSupportedException{
+         super.clone();
+         return new Pergunta(getId(),getQuantidadeDeAlternativas(),getAlternativaCorreta(),getPergunta());
+     }// End clonar()
 }// End class pergunta

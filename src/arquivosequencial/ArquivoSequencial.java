@@ -18,6 +18,7 @@ import entidades.Entidade;
 /**
  * @author Vinicius Francisco da Silva
  * @author Stefany Gaspar
+ * @param <T>
  */
 public class ArquivoSequencial<T extends Entidade>{ 
    public static Scanner scanner;
@@ -68,7 +69,6 @@ public class ArquivoSequencial<T extends Entidade>{
             id = db.getDatainputstream().readInt();
             classificacao = db.getDatainputstream().readInt();
             nome = db.getDatainputstream().readUTF();
-            //nome = datainputstream.readUTF();
             login = db.getDatainputstream().readUTF();
             email = db.getDatainputstream().readUTF();
             senha = db.getDatainputstream().readUTF();
@@ -77,29 +77,29 @@ public class ArquivoSequencial<T extends Entidade>{
         }// End for        
     }// End ler()
     
-    public void atualizar(DataBase db, T value){
+    public void atualizar(DataBase db, T value) throws Exception{
         System.out.println("========== ATUALIZAR ========== ");
         scanner = new Scanner(System.in);
         System.out.println("Digite o código do usuário");
         int codigo = scanner.nextInt();
         int pos = search.pesquisaBinaria(db.getArrayList(),codigo);
         if(pos != -1){
-            //clona
+            T clone = (T)value.clonar();
             try{
                 System.out.print("Nome: \t");
-                value.setAcess("setNome",scanner.nextLine());
+                clone.setAcess("setNome",scanner.nextLine());
                 System.out.println("");
             
                 System.out.print("Login: \t");
-                value.setAcess("setLogin",scanner.nextLine());
+                clone.setAcess("setLogin",scanner.nextLine());
                 System.out.println("");
             
                 System.out.print("Email: \t");
-                value.setAcess("setEmail",scanner.nextLine());
+                clone.setAcess("setEmail",scanner.nextLine());
                 System.out.println("");
             
                 System.out.print("Senha: \t");
-                value.setAcess("setSenha",scanner.nextLine());
+                clone.setAcess("setSenha",scanner.nextLine());
                 System.out.println("");
             
                 System.out.println("[ ======= DESEJA ATUALIZAR? [S] SIM / [N] NÃO ======= ]\n");
@@ -110,10 +110,11 @@ public class ArquivoSequencial<T extends Entidade>{
                     e.printStackTrace();
                 }// End catch
                 if(chr == 'S' || chr == 's' || chr == 'y' || chr == 'Y'){
-                    // Alterar no array list e no arquivo
+                    db.getArrayList().add(pos,clone);
+                    // Alterar no arquivo
                 }// End if
                 else if(chr == 'N' || chr == 'n'){
-                    // destroi o clone
+                    clone = null;
                 }// End else
             }catch(Exception e){ e.printStackTrace(); }// End catch
         }else{
