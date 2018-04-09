@@ -23,6 +23,16 @@ public class ArquivoSequencial<T>{
     public static void cadastroUsuario(Usuario usuario, DataBase db){
         assert db.getDataoutputstream() != null;
         try{
+/*
+	ByteArrayOutputStream registro = new ByteArrayOutputStream();
+	DataOutpuStream saida = new DataOutputStream(registro);
+	saida.writeShort(usuario.getId());
+	saida.writeShort(usuario.getClassificacaoGeral());
+	saida.writeUTF(usuario.getNome());
+	saida.writeUTF(usuario.getLogin());
+	saida.writeUTF(Usuario.getEmail());
+	saida.writeUTF(usuario.getSenha());
+*/
             db.getDataoutputstream().writeShort((short)GetByte.getByte(usuario.getNome()) + 
                     (short)GetByte.INTEGER +
                     (short)GetByte.INTEGER +
