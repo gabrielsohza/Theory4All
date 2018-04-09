@@ -14,11 +14,19 @@ import java.util.ArrayList;
  * @author Vinicius Francisco da Silva
  */
 public class Cadastro{
-     DataBase<Usuario> db;
+    protected DataBase<Usuario> db;
 
-    public Cadastro(DataBase<Usuario> db){
-        this.db = db;
+    public Cadastro(){
+        this.db = new DataBase<Usuario>();
     }// End Cadastro()
+     
+    public DataBase<Usuario> getDb(){
+        return db;
+    }// End GetDb
+
+    public void setDb(DataBase<Usuario> db){
+        this.db = db;
+    }// End setDb()
     
     public boolean exist(String login){
         boolean resp = false;

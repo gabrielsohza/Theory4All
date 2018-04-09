@@ -24,29 +24,30 @@ import login.LoginView;
  * @author Vinicius Francisco da Silva
  */
 public class Theory4All{
-    public static DataBase<Usuario> db;
     public static Scanner scanner;
+    static LoginView lv;
+    static CadastroView cv;
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args)throws Exception{
+        lv = new LoginView(new Login());
+        cv = new CadastroView(new Cadastro());
+        telaInicial();
+    }// End main()
+    
+    public static void telaInicial() throws Exception{
         System.out.println("[ ======= THEORY4 ALL ======= ]\n");
         System.out.println("Logar digite: [L]");
         System.out.println("Cadastrar digite: [C]");
         scanner = new Scanner(System.in);
-        char chr = scanner.nextLine().charAt(0);
-        db = new DataBase<>();
-        if(!db.createTable("Usuario.db","w")){      
-            throw new Exception("erro:");
-        }// End if
-        if(!db.getArrayList().isEmpty() && chr == 'L' && chr == 'l'){
-            LoginView lv = new LoginView(new Login(db));
+        char chr = scanner.nextLine().charAt(0);     
+        if(cv.getCadastro().getDb().getArrayList().isEmpty() && chr == 'L' || chr == 'l'){
             lv.login();
-        }else if(db.getArrayList().isEmpty() || chr == 'C' && chr == 'C'){
-            CadastroView cv = new CadastroView(new Cadastro(db));
+        }else if(cv.getCadastro().getDb().getArrayList().isEmpty() || chr == 'C' || chr == 'C'){
             cv.registrarUsuario();
         }else{
            System.out.print("ERRO");
         }// End else
-    }// End main()
+    }// End telaInicial()
 }// End class Theory4All

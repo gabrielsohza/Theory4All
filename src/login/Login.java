@@ -5,6 +5,7 @@
  */
 package login;
 
+import cadastro.Cadastro;
 import database.DataBase;
 import entidades.Usuario;
 import java.util.ArrayList;
@@ -13,15 +14,14 @@ import java.util.ArrayList;
  *
  * @author Vinicius Francisco da Silva
  */
-public class Login{
-    DataBase<Usuario> db = new DataBase<>();
+public class Login extends Cadastro{
     
     /**
      * 
      * @param list 
      */
-    public Login(DataBase<Usuario> db){
-        this.db = db;
+    public Login(){
+        //this. = ;
     }// End Login()
     
     /**
@@ -33,7 +33,8 @@ public class Login{
     public boolean validaLogin(String nome, String senha){
         boolean resp = false;
         for(int i = 0; i < db.getArrayList().size(); i++){
-            if(db.getArrayList().get(i).getLogin().equals(nome)){
+            if(db.getArrayList().get(i).getLogin().equals(nome) && 
+                    db.getArrayList().get(i).getSenha().equals(senha)){
                 resp = true;
                 i = db.getArrayList().size();
             }// End if

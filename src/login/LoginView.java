@@ -33,4 +33,8 @@ public class LoginView{
             System.out.println("Nome ou senha inválidos: ");
         }// End else
     }// End login()
+    
+    public void telaInicial(){
+        
+    }// End telaInicial()
 }// End LoginView
