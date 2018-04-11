@@ -65,7 +65,7 @@ public class CadastroView{
             if(!cadastro.exist(str_login)){
                 try{
                     cadastro.getDb().getArrayList().add(index,new Usuario(Usuario.getIdInit(),0,str_nome,str_login,str_email,str_senha));
-                    cadastro.getDb().getArquivo().cadastroUsuario(cadastro.getDb().getArrayList().get(index),index++,cadastro.getDb());
+                    cadastro.getDb().getArquivo().cadastroUsuario(cadastro.getDb().getArrayList().get(index),cadastro.getDb());
                     System.out.println("[ ======= CADASTRO CONCLUÍDO COM SUCESSO ======= ]\n");
                     Theory4All.telaInicial();
                 }catch(Exception e){ e.printStackTrace(); }// End catch

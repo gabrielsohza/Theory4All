@@ -26,7 +26,6 @@ public class DataBase<T extends Entidade>{
     private FileInputStream fileinputstream;
     private DataOutputStream dataoutputstream;
     private DataInputStream datainputstream;
-    public ArrayList<T> list;
     private ArquivoSequencial<T> arquivo;
     
     /**
@@ -35,7 +34,6 @@ public class DataBase<T extends Entidade>{
     public DataBase(){
         fileoutputstream = null;
         fileoutputstream = null;
-        this.list = new ArrayList<T>();
         arquivo = new ArquivoSequencial<>();
     }// End DataBase
 
@@ -102,15 +100,7 @@ public class DataBase<T extends Entidade>{
     public void setDatainputstream(DataInputStream datainputstream) {
         this.datainputstream = datainputstream;
     }// End setDatainputstream()
-
-    public ArrayList<T> getArrayList(){
-        return list;
-    }// End getArrayList()
-
-    public void setArrayList(ArrayList<T> list){
-        this.list = list;
-    }// End setArrayList()
-
+    
     public ArquivoSequencial<T> getArquivo(){
         return arquivo;
     }// End getArquivo()

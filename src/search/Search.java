@@ -4,11 +4,15 @@
  * and open the template in the editor.
  */
 package search;
+import cadastro.Cadastro;
 import entidades.Entidade;
 import java.util.ArrayList;
 import entidades.Usuario;
 import entidades.Unidade;
 import entidades.Pergunta;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.RandomAccessFile;
 /**
  * @author Stefany Gaspar
  * @author Vinicius Francisco da Silva
@@ -17,28 +21,24 @@ import entidades.Pergunta;
  * @param <Pergunta>
  */
 public class Search<T extends Entidade>{
+    private RandomAccessFile randomacessfile;
+    
     /**
      *
      * @param value
      * @param id
      * @return
      */
-    public int pesquisaBinaria(ArrayList<T> value,int id){
-        int esq = 0;
-   	int dir = (value.size()-1);
-   	int meio = -1;
-   	while(esq <= dir){
-   		meio = (esq+dir)/2;
-   		if(id == value.get(meio).getId()){
-                    esq = value.size();
-   		}// End if
-   		else if(id > value.get(meio).getId()){
-                    esq = meio+1;
-   		}// End else if
-   		else{
-                    dir = meio-1;
-   		}// End if
-   	}// End while
-   	return meio;
-   }// End pesquisaBinaria()
+    public T pesquisaSequencial(Cadastro cd,int id) throws Exception{
+        randomacessfile = new RandomAccessFile(cd.getDb().getNome(),"rw");
+        randomacessfile.seek(0);
+        int codigo;
+        while(true){    
+            codigo = randomacessfile.readInt();
+            if(codigo == id){
+                
+            }// End if    
+        }// End while
+        //return null;
+    }// End pesquisaBinaria()
 }// End class Sort

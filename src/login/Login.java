@@ -14,7 +14,7 @@ import java.util.ArrayList;
  *
  * @author Vinicius Francisco da Silva
  */
-public class Login extends Cadastro{
+public class Login{
     
     /**
      * 
@@ -23,22 +23,22 @@ public class Login extends Cadastro{
     public Login(){
         //this. = ;
     }// End Login()
-    
+ 
     /**
      * 
      * @param nome
      * @param senha
      * @return 
      */
-    public boolean validaLogin(String nome, String senha){
+    public boolean validaLogin(String nome, String senha, Cadastro cd){
         boolean resp = false;
-        for(int i = 0; i < db.getArrayList().size(); i++){
-            if(db.getArrayList().get(i).getLogin().equals(nome) && 
-                    db.getArrayList().get(i).getSenha().equals(senha)){
-                resp = true;
-                i = db.getArrayList().size();
+        for(int i = 0; i < cd.getDb().getArrayList().size(); i++){
+            if(cd.getDb().getArrayList().get(i).getLogin().equals(nome) && 
+                    cd.getDb().getArrayList().get(i).getSenha().equals(senha)){
+                    resp = true;
+                i = cd.getDb().getArrayList().size();
             }// End if
         }// End for
-        return resp;
+        return resp;                     
     }// End validaLogin()    
 }// End Login

@@ -27,7 +27,7 @@ public class Cadastro{
     public void setDb(DataBase<Usuario> db){
         this.db = db;
     }// End setDb()
-    
+    /*
     public boolean exist(String login){
         boolean resp = false;
         for(int i = 0; i < db.getArrayList().size(); i++){
@@ -38,6 +38,7 @@ public class Cadastro{
         }// End for
         return resp;
     }// End exist()
+*/
 }// End class Cadastro
 
 

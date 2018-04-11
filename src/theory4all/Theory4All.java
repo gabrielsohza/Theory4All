@@ -42,9 +42,9 @@ public class Theory4All{
         System.out.println("Cadastrar digite: [C]");
         scanner = new Scanner(System.in);
         char chr = scanner.nextLine().charAt(0);     
-        if(cv.getCadastro().getDb().getArrayList().isEmpty() && chr == 'L' || chr == 'l'){
-            lv.login();
-        }else if(cv.getCadastro().getDb().getArrayList().isEmpty() || chr == 'C' || chr == 'C'){
+        if(cv.getCadastro().getDb() != null && chr == 'L' || chr == 'l'){
+            lv.login(cv.getCadastro());
+        }else if(cv.getCadastro().getDb() != null || chr == 'C' || chr == 'C'){
             cv.registrarUsuario();
         }else{
            System.out.print("ERRO");
