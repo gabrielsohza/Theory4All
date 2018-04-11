@@ -28,10 +28,9 @@ public class ArquivoSequencial<T extends Entidade>{
    public static final ByteArrayOutputStream byteoutputstream = new ByteArrayOutputStream();
    public static final DataOutputStream dataoutputstream = new DataOutputStream(byteoutputstream);
    
-    private void cadastroUsuario(T valor,DataBase db){
+    private void cadastroUsuario(T valor,DataBase db) throws Exception{
         assert dataoutputstream != null;     
         try{
-<<<<<<< HEAD
             dataoutputstream.writeShort(valor.getId());           
             dataoutputstream.writeInt(Integer.parseInt(String.valueOf(valor.getAcess("getClassificacaoGeral"))));
             dataoutputstream.writeUTF(valor.getAcess("getNome")); 
@@ -39,63 +38,9 @@ public class ArquivoSequencial<T extends Entidade>{
             dataoutputstream.writeUTF(valor.getAcess("getEmail"));
             dataoutputstream.writeUTF(valor.getAcess("getSenha"));
             db.getDataoutputstream().write(byteoutputstream.toByteArray());
-=======
-/*
-	ByteArrayOutputStream registro = new ByteArrayOutputStream();
-	DataOutpuStream saida = new DataOutputStream(registro);
-	saida.writeShort(usuario.getId());
-	saida.writeShort(usuario.getClassificacaoGeral());
-	saida.writeUTF(usuario.getNome());
-	saida.writeUTF(usuario.getLogin());
-	saida.writeUTF(Usuario.getEmail());
-	saida.writeUTF(usuario.getSenha());
-*/
-            db.getDataoutputstream().writeShort((short)GetByte.getByte(usuario.getNome()) + 
-                    (short)GetByte.INTEGER +
-                    (short)GetByte.INTEGER +
-                    (short)GetByte.getByte(usuario.getLogin()) + 
-                    (short)GetByte.getByte(usuario.getEmail()) + 
-                    (short)GetByte.getByte(usuario.getSenha()));
-            
-            db.getDataoutputstream().writeShort((short)GetByte.INTEGER);
-            db.getDataoutputstream().writeInt(usuario.getId());
-            
-            db.getDataoutputstream().writeShort((short)GetByte.INTEGER);
-            db.getDataoutputstream().writeInt(usuario.getClassificacaoGeral());
-            
-            db.getDataoutputstream().writeShort((short)GetByte.getByte(usuario.getNome()));
-            db.getDataoutputstream().writeUTF(usuario.getNome());
-            
-            db.getDataoutputstream().writeShort((short)GetByte.getByte(usuario.getLogin()));
-            db.getDataoutputstream().writeUTF(usuario.getLogin());
-            
-            db.getDataoutputstream().writeShort((short)GetByte.getByte(usuario.getEmail()));
-            db.getDataoutputstream().writeUTF(usuario.getEmail());
-            
-            db.getDataoutputstream().writeShort((short)GetByte.getByte(usuario.getSenha()));
-            db.getDataoutputstream().writeUTF(usuario.getSenha());
->>>>>>> master
         }catch(Exception e){
             e.printStackTrace();
-        }// End catch 
-    }// End cadastroUsuario()
-   
-    public static void ler(DataBase db) throws Exception{
-        assert db.getDatainputstream() != null;
-        int ultimoId = db.getDatainputstream().readInt();
-        int id,classificacao;
-        String nome,login,email,senha;
-        System.out.println("========== LISTA DE USUÁRIOS ==========");
-        for(int i = 0; i < ultimoId; i++){
-            id = db.getDatainputstream().readInt();
-            classificacao = db.getDatainputstream().readInt();
-            nome = db.getDatainputstream().readUTF();
-            login = db.getDatainputstream().readUTF();
-            email = db.getDatainputstream().readUTF();
-            senha = db.getDatainputstream().readUTF();
-            
-            System.out.println(id + " " + classificacao + " " + nome + " " + login + " " + email + " " + senha);
-        }// End for        
+        }// End catch     
     }// End ler()
     
     
