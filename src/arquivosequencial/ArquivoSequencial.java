@@ -31,6 +31,7 @@ public class ArquivoSequencial<T extends Entidade>{
     private void cadastroUsuario(T valor,DataBase db){
         assert dataoutputstream != null;     
         try{
+<<<<<<< HEAD
             dataoutputstream.writeShort(valor.getId());           
             dataoutputstream.writeInt(Integer.parseInt(String.valueOf(valor.getAcess("getClassificacaoGeral"))));
             dataoutputstream.writeUTF(valor.getAcess("getNome")); 
@@ -38,6 +39,42 @@ public class ArquivoSequencial<T extends Entidade>{
             dataoutputstream.writeUTF(valor.getAcess("getEmail"));
             dataoutputstream.writeUTF(valor.getAcess("getSenha"));
             db.getDataoutputstream().write(byteoutputstream.toByteArray());
+=======
+/*
+	ByteArrayOutputStream registro = new ByteArrayOutputStream();
+	DataOutpuStream saida = new DataOutputStream(registro);
+	saida.writeShort(usuario.getId());
+	saida.writeShort(usuario.getClassificacaoGeral());
+	saida.writeUTF(usuario.getNome());
+	saida.writeUTF(usuario.getLogin());
+	saida.writeUTF(Usuario.getEmail());
+	saida.writeUTF(usuario.getSenha());
+*/
+            db.getDataoutputstream().writeShort((short)GetByte.getByte(usuario.getNome()) + 
+                    (short)GetByte.INTEGER +
+                    (short)GetByte.INTEGER +
+                    (short)GetByte.getByte(usuario.getLogin()) + 
+                    (short)GetByte.getByte(usuario.getEmail()) + 
+                    (short)GetByte.getByte(usuario.getSenha()));
+            
+            db.getDataoutputstream().writeShort((short)GetByte.INTEGER);
+            db.getDataoutputstream().writeInt(usuario.getId());
+            
+            db.getDataoutputstream().writeShort((short)GetByte.INTEGER);
+            db.getDataoutputstream().writeInt(usuario.getClassificacaoGeral());
+            
+            db.getDataoutputstream().writeShort((short)GetByte.getByte(usuario.getNome()));
+            db.getDataoutputstream().writeUTF(usuario.getNome());
+            
+            db.getDataoutputstream().writeShort((short)GetByte.getByte(usuario.getLogin()));
+            db.getDataoutputstream().writeUTF(usuario.getLogin());
+            
+            db.getDataoutputstream().writeShort((short)GetByte.getByte(usuario.getEmail()));
+            db.getDataoutputstream().writeUTF(usuario.getEmail());
+            
+            db.getDataoutputstream().writeShort((short)GetByte.getByte(usuario.getSenha()));
+            db.getDataoutputstream().writeUTF(usuario.getSenha());
+>>>>>>> master
         }catch(Exception e){
             e.printStackTrace();
         }// End catch 
