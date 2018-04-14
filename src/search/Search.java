@@ -6,39 +6,35 @@
 package search;
 import cadastro.Cadastro;
 import entidades.Entidade;
-import java.util.ArrayList;
-import entidades.Usuario;
-import entidades.Unidade;
-import entidades.Pergunta;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.RandomAccessFile;
 /**
- * @author Stefany Gaspar
- * @author Vinicius Francisco da Silva
- * @param <T>
- * @param <Unidade>
- * @param <Pergunta>
+ * 
+ * @author vinicius
+ * @param <T> 
  */
 public class Search<T extends Entidade>{
-    private RandomAccessFile randomacessfile;
-    
     /**
-     *
-     * @param value
+     * 
+     * @param cd
      * @param id
      * @return
+     * @throws Exception 
      */
-    public T pesquisaSequencial(Cadastro cd,int id) throws Exception{
-        randomacessfile = new RandomAccessFile(cd.getDb().getNome(),"rw");
-        randomacessfile.seek(0);
+    public long pesquisaSequencial(Cadastro<T> cd,int id) throws Exception{
+        cd.getDb().getRandomacessfile().seek(0);
         int codigo;
-        while(true){    
-            codigo = randomacessfile.readInt();
+        short size;
+        long pointer;
+        int i = 0;            
+        while(i < cd.getDb().getRandomacessfile().length()){
+            size = cd.getDb().getRandomacessfile().readShort();
+            pointer = cd.getDb().getRandomacessfile().getFilePointer();
+            codigo = cd.getDb().getRandomacessfile().readInt();
             if(codigo == id){
-                
-            }// End if    
-        }// End while
-        //return null;
+                return pointer;
+            }// End if
+            cd.getDb().getRandomacessfile().seek(size);
+            i++;
+        }// End while 
+        return (long)-1;
     }// End pesquisaBinaria()
 }// End class Sort

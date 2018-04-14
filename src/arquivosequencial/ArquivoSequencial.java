@@ -15,7 +15,11 @@ import search.Search;
 import java.util.ArrayList;
 import database.DataBase;
 import entidades.Entidade;
+import entidades.Pergunta;
+import entidades.Unidade;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 
 /**
  * @author Vinicius Francisco da Silva
@@ -24,77 +28,158 @@ import java.io.ByteArrayOutputStream;
  */
 public class ArquivoSequencial<T extends Entidade>{ 
    public static Scanner scanner;
-   public final Search search = new Search();
+   public static final Search search = new Search();
    public static final ByteArrayOutputStream byteoutputstream = new ByteArrayOutputStream();
    public static final DataOutputStream dataoutputstream = new DataOutputStream(byteoutputstream);
    
-    private void cadastroUsuario(T valor,DataBase db) throws Exception{
-        assert dataoutputstream != null;     
-        try{
-            dataoutputstream.writeShort(valor.getId());           
-            dataoutputstream.writeInt(Integer.parseInt(String.valueOf(valor.getAcess("getClassificacaoGeral"))));
-            dataoutputstream.writeUTF(valor.getAcess("getNome")); 
-            dataoutputstream.writeUTF(valor.getAcess("getLogin"));         
-            dataoutputstream.writeUTF(valor.getAcess("getEmail"));
-            dataoutputstream.writeUTF(valor.getAcess("getSenha"));
-            db.getDataoutputstream().write(byteoutputstream.toByteArray());
-        }catch(Exception e){
-            e.printStackTrace();
-        }// End catch     
+    public void cadastro(T valor,DataBase<T> db) throws Exception{
+        assert dataoutputstream != null && db.getRandomacessfile() != null;     
+        switch (db.getNome()){
+           case "Usuario":
+               try{                 
+                   dataoutputstream.writeUTF(String.valueOf(valor.getId()));
+                   dataoutputstream.writeUTF(
+                           String.valueOf(valor.getAcess("getClassificacaoGeral")));
+                   dataoutputstream.writeUTF(valor.getAcess("getNome"));
+                   dataoutputstream.writeUTF(valor.getAcess("getLogin"));
+                   dataoutputstream.writeUTF(valor.getAcess("getEmail"));
+                   dataoutputstream.writeUTF(valor.getAcess("getSenha"));
+                 
+                   db.getRandomacessfile().seek(db.getRandomacessfile().length());
+                   db.getRandomacessfile().writeShort(dataoutputstream.size());
+                   db.getRandomacessfile().write(byteoutputstream.toByteArray());
+               }catch(Exception e){
+                   e.printStackTrace();
+               }// End catch
+               break;
+               
+           case "Pergunta":
+               try{
+                   db.getRandomacessfile().seek(db.getRandomacessfile().length());
+                   
+                   dataoutputstream.writeInt(valor.getId());
+                   dataoutputstream.writeByte(Byte.parseByte(valor.getAcess("getQuantidadeDeAlternativas")));
+                   dataoutputstream.writeByte(Byte.parseByte(valor.getAcess("getAlternativaCorreta")));
+                   dataoutputstream.writeUTF(valor.getAcess("getPergunta"));
+                   
+                   db.getRandomacessfile().writeShort(dataoutputstream.size());
+                   db.getRandomacessfile().write(byteoutputstream.toByteArray());
+               }catch(Exception e){
+                   e.printStackTrace();
+               }// End catch
+               break;
+           case "Unidade":
+               try{
+                   db.getRandomacessfile().seek(db.getRandomacessfile().length());
+                   
+                   dataoutputstream.writeShort(valor.getId());
+                   dataoutputstream.writeByte(Byte.parseByte(valor.getAcess("getClassificacao")));
+                   dataoutputstream.writeUTF(valor.getAcess("getNome"));
+                   
+                   db.getRandomacessfile().writeShort(dataoutputstream.size());
+                   db.getRandomacessfile().write(byteoutputstream.toByteArray());
+               }catch(Exception e){
+                   e.printStackTrace();
+               }// End catch
+               break;
+           default: throw new Exception("erro: "); // End else
+       }// End switch
     }// End ler()
     
+    public T ler(DataBase<T> db) throws IOException{
+        int tamanho = db.getRandomacessfile().readShort();
+        byte[] array = new byte[tamanho];
+        if(db.getRandomacessfile().read(array) != tamanho){
+            throw new IOException("erro");
+        }// End if
+        ByteArrayInputStream registro = new ByteArrayInputStream(array);
+        DataInputStream entrada = new DataInputStream(registro);
+        int codigo = entrada.readInt();
+       switch(db.getNome()){
+           case "Usuario":
+               int classificacao = entrada.readInt();
+               String nome = entrada.readUTF();
+               String login = entrada.readUTF();
+               String email = entrada.readUTF();
+               String senha = entrada.readUTF();
+               return (T)new Usuario(codigo,classificacao,nome,login,email,senha);
+           
+           case "Pergunta":
+               byte quantidadeDeAlternativas = entrada.readByte();
+                byte alternativaCorreta = entrada.readByte();
+                String pergunta = entrada.readUTF();
+                return (T)new Pergunta(codigo,quantidadeDeAlternativas,alternativaCorreta,pergunta);
+
+           case "Unidade":
+               byte classificacaogeral = entrada.readByte();
+               String nomeunidade = entrada.readUTF();
+               return (T)new Unidade(codigo,classificacaogeral,nomeunidade);
+               
+           default: return null;
+       }// End switch  
+    }// End ler()
     
     // Modificar a parte de interação com o usuario
-    public static void atualizar(Cadastro cd,int codigo) throws Exception{
+    public boolean atualizar(Cadastro<T> cd,int codigo) throws Exception{
         System.out.println("========== ATUALIZAR ========== ");
-        int pos = search.pesquisaBinaria(cd,codigo);
-        if(pos != -1){
-           // T clone = (T)value.clonar();
-            try{
-                System.out.print("Nome: \t");
-            //    clone.setAcess("setNome",scanner.nextLine());
-                System.out.println("");
+        long pointer = -1;
+        boolean resp = false;
+        switch(cd.getDb().getNome()){    
+            case "Usuario":
+                pointer = search.pesquisaSequencial(cd,codigo);
+                if(pointer != -1){
+                    try{
+                        
+                        System.out.println("[ ======= DESEJA ATUALIZAR? [S] SIM / [N] NÃO ======= ]\n");
+                        char chr = ' ';
+                        try{    
+                            chr = scanner.next().charAt(0);
+                        }catch(Exception e){ e.printStackTrace();}// End catch
+                        if(chr == 'S' || chr == 's' || chr == 'y' || chr == 'Y'){
+                        // Alterar no arquivo
+                            resp = true;
+                            System.out.println("Usuário alterado com sucesso!");
+                        }// End if
+                        else if(chr == 'N' || chr == 'n'){
+                  //    clone = null;
+                        }// End else
+                    }catch(Exception e){ e.printStackTrace(); }// End catch
+                }else{
+                    System.out.println("Usuário não existe!");
+                }// fim else
+                break;
+            case "Pergunta":
+                
             
-                System.out.print("Login: \t");
-           //     clone.setAcess("setLogin",scanner.nextLine());
-                System.out.println("");
+            case "Unidade":
             
-                System.out.print("Email: \t");
-           //     clone.setAcess("setEmail",scanner.nextLine());
-                System.out.println("");
-            
-                System.out.print("Senha: \t");
-            //    clone.setAcess("setSenha",scanner.nextLine());
-                System.out.println("");
-            
-                System.out.println("[ ======= DESEJA ATUALIZAR? [S] SIM / [N] NÃO ======= ]\n");
-                char chr = ' ';
-                try{    
-                    chr = scanner.next().charAt(0);
-                }catch(Exception e){
-                    e.printStackTrace();
-                }// End catch
-                if(chr == 'S' || chr == 's' || chr == 'y' || chr == 'Y'){
-                    // Alterar no arquivo
-                }// End if
-                else if(chr == 'N' || chr == 'n'){
-                //    clone = null;
-                }// End else
-            }catch(Exception e){ e.printStackTrace(); }// End catch
-        }else{
-            System.out.println("Usuário não existe!");
-        }// fim else  
+            default: throw new Exception("Erro");
+        }// End switch
+       return false;
     }// End atualizar()
     
     // Modificar a parte de interação com o usuario
-    public static void remove(Cadastro cd,int codigo){
+
+    /**
+     *
+     * @param cd
+     * @param codigo
+     * @throws Exception
+     */
+    public void remove(Cadastro<T> cd,int codigo) throws Exception{
         System.out.println("========== REMOVER ========== ");
-        search.setName(cd.getDb().getNome());
-        int pos = search.pesquisaBinaria(cd,codigo);
-        if(pos != -1){
-            // remove usando lapide no arquivo
-        }else{
-            System.out.println("Usuário não existe!");
-        }// End else
+        if(cd.getDb().getNome().equals("Usuario")){   
+            long pos = search.pesquisaSequencial(cd,codigo);
+            if(pos != -1){
+                // remove usando lapide no arquivo
+                System.out.println("Usuário removido com sucesso");
+            }else{
+                System.out.println("Usuário não existe!");
+            }// End else
+        }else if(cd.getDb().getNome().equals("Pergunta")){
+            
+        }else if(cd.getDb().getNome().equals("Unidade")){
+            
+        }// End else if
     }// End remove()
 }// End class ArquivoSequencial

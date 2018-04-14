@@ -14,6 +14,7 @@ import java.io.DataOutputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.RandomAccessFile;
 import java.util.ArrayList;
 
 /**
@@ -22,18 +23,14 @@ import java.util.ArrayList;
  */
 public class DataBase<T extends Entidade>{
     private String nome;
-    private FileOutputStream fileoutputstream;
-    private FileInputStream fileinputstream;
-    private DataOutputStream dataoutputstream;
-    private DataInputStream datainputstream;
+    private RandomAccessFile randomacessfile; 
     private ArquivoSequencial<T> arquivo;
     
     /**
      * 
      */
     public DataBase(){
-        fileoutputstream = null;
-        fileoutputstream = null;
+        randomacessfile = null;
         arquivo = new ArquivoSequencial<>();
     }// End DataBase
 
@@ -52,54 +49,6 @@ public class DataBase<T extends Entidade>{
     public void setNome(String nome){
         this.nome = nome;
     }// End setNome()
-
-    /**
-     * 
-     * @return 
-     */
-    public FileOutputStream getFileoutputstream(){
-        return fileoutputstream;
-    }// End getFileoutputstream()
-
-    /**
-     * 
-     * @param fileoutputstream 
-     */
-    public void setFileoutputstream(FileOutputStream fileoutputstream){
-        this.fileoutputstream = fileoutputstream;
-    }// End setFileoutputstream()
-
-    /**
-     * 
-     * @return 
-     */
-    public FileInputStream getFileinputstream(){
-        return fileinputstream;
-    }// End getFileinputstream()
-
-    /**
-     * 
-     * @param fileinputstream 
-     */
-    public void setFileinputstream(FileInputStream fileinputstream){
-        this.fileinputstream = fileinputstream;
-    }// End setFileinputstream()
-
-    public DataOutputStream getDataoutputstream(){
-        return dataoutputstream;
-    }// End getDataoutputstream()
-
-    public void setDataoutputstream(DataOutputStream dataoutputstream){
-        this.dataoutputstream = dataoutputstream;
-    }// End setDataoutputstream()
-
-    public DataInputStream getDatainputstream(){
-        return datainputstream;
-    }// End getDatainputstream()
-
-    public void setDatainputstream(DataInputStream datainputstream) {
-        this.datainputstream = datainputstream;
-    }// End setDatainputstream()
     
     public ArquivoSequencial<T> getArquivo(){
         return arquivo;
@@ -108,7 +57,14 @@ public class DataBase<T extends Entidade>{
     public void setArquivo(ArquivoSequencial<T> arquivo){
         this.arquivo = arquivo;
     }// End setArquivo
-     
+
+    public RandomAccessFile getRandomacessfile(){
+        return randomacessfile;
+    }// End getRandomacessfile()
+
+    public void setRandomacessfile(RandomAccessFile randomacessfile){
+        this.randomacessfile = randomacessfile;
+    }// End setRandomacessfile()
     
     /**
      * 
@@ -117,25 +73,12 @@ public class DataBase<T extends Entidade>{
      * @return 
      */
     public boolean createTable(String nome, String format){
+        assert this.randomacessfile != null;
         boolean resp = false;
+        setNome(nome);
         try{
-            if(format.equals("w") && fileoutputstream == null){
-                fileoutputstream = new FileOutputStream(nome);
-                dataoutputstream = new DataOutputStream(fileoutputstream);
-                resp = true;
-            }// End
-            else if(format.equals("r") && fileoutputstream == null){
-                fileinputstream = new FileInputStream(nome);
-                datainputstream = new DataInputStream(fileinputstream);
-                resp = true;
-            }// End else if
-            else if(format.equals("rw") || format.equals("wr") && fileoutputstream == null && fileinputstream == null){
-                fileoutputstream = new FileOutputStream(nome);
-                dataoutputstream = new DataOutputStream(fileoutputstream);
-                fileinputstream = new FileInputStream(nome);
-                datainputstream = new DataInputStream(fileinputstream);
-                resp = true;
-            }// End else if
+            this.randomacessfile = new RandomAccessFile(nome + ".db",format);
+            resp = true;
         }catch(Exception e){
             e.printStackTrace();
         }// End catch

@@ -17,9 +17,9 @@ import theory4all.Theory4All;
 public class CadastroView{
     public static int index;
     public static Scanner scanner;
-    private Cadastro cadastro;
+    private Cadastro<Usuario> cadastro;
 
-    public CadastroView(Cadastro cadastro){
+    public CadastroView(Cadastro<Usuario> cadastro){
         index = 0;
         this.cadastro = cadastro;
     }// End CadastroView()
@@ -32,7 +32,7 @@ public class CadastroView{
         CadastroView.index = index;
     }// End setIndex()
 
-    public Cadastro getCadastro(){
+    public Cadastro<Usuario> getCadastro(){
         return cadastro;
     }// End getCadastro()
 
@@ -41,7 +41,7 @@ public class CadastroView{
     }// End setCadastro()
     
     public void registrarUsuario() throws Exception{
-        if(cadastro.getDb().createTable("Usuario.db","rw")){
+        if(cadastro.getDb().createTable("Usuario","rw")){
             scanner = new Scanner(System.in);
             if(index == 0) System.out.println("Não existe usuários cadastrados: Faça o cadastro!");
             System.out.println("[ ============ CADASTRO DE USUÁRIOS ============ ]\n");
@@ -62,10 +62,9 @@ public class CadastroView{
             String str_senha = scanner.nextLine();
             System.out.println(" ");
         
-            if(!cadastro.exist(str_login)){
+      //      if(!cadastro.exist(str_login)){
                 try{
-                    cadastro.getDb().getArrayList().add(index,new Usuario(Usuario.getIdInit(),0,str_nome,str_login,str_email,str_senha));
-                    cadastro.getDb().getArquivo().cadastroUsuario(cadastro.getDb().getArrayList().get(index),cadastro.getDb());
+                    cadastro.getDb().getArquivo().cadastro(new Usuario(index++,0,str_nome,str_login,str_email,str_senha),cadastro.getDb());
                     System.out.println("[ ======= CADASTRO CONCLUÍDO COM SUCESSO ======= ]\n");
                     Theory4All.telaInicial();
                 }catch(Exception e){ e.printStackTrace(); }// End catch
@@ -73,9 +72,9 @@ public class CadastroView{
             else{
                 System.out.println(" LOGIN JÁ EXISTE ");
             }// End else
-        }// End if
-        else{
-            throw new Exception("erro");
-        }// End else
+     //   }// End if
+       // else{
+         //   throw new Exception("erro");
+      //  }// End else
     }// End registrarUsuario()
 }// End CadastroView()

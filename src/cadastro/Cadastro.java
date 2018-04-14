@@ -6,6 +6,7 @@
 package cadastro;
 
 import database.DataBase;
+import entidades.Entidade;
 import entidades.Usuario;
 import java.util.ArrayList;
 
@@ -13,18 +14,18 @@ import java.util.ArrayList;
  *
  * @author Vinicius Francisco da Silva
  */
-public class Cadastro{
-    protected DataBase<Usuario> db;
+public class Cadastro<T extends Entidade>{
+    protected DataBase<T> db;
 
     public Cadastro(){
-        this.db = new DataBase<Usuario>();
+        this.db = new DataBase<T>();
     }// End Cadastro()
      
-    public DataBase<Usuario> getDb(){
+    public DataBase<T> getDb(){
         return db;
     }// End GetDb
 
-    public void setDb(DataBase<Usuario> db){
+    public void setDb(DataBase<T> db){
         this.db = db;
     }// End setDb()
     /*

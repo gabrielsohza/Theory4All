@@ -40,12 +40,15 @@ public class Theory4All{
         System.out.println("[ ======= THEORY4 ALL ======= ]\n");
         System.out.println("Logar digite: [L]");
         System.out.println("Cadastrar digite: [C]");
+        System.out.println("Sair [S]");
         scanner = new Scanner(System.in);
         char chr = scanner.nextLine().charAt(0);     
         if(cv.getCadastro().getDb() != null && chr == 'L' || chr == 'l'){
             lv.login(cv.getCadastro());
-        }else if(cv.getCadastro().getDb() != null || chr == 'C' || chr == 'C'){
+        }else if(chr != 's' && chr != 'S' && cv.getCadastro().getDb() != null || chr == 'C' || chr == 'C'){
             cv.registrarUsuario();
+        }else if(chr == 'S' || chr == 's'){
+            System.exit(0);
         }else{
            System.out.print("ERRO");
         }// End else

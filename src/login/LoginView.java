@@ -8,6 +8,7 @@ package login;
 import arquivosequencial.ArquivoSequencial;
 import cadastro.Cadastro;
 import database.DataBase;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 /**
@@ -40,8 +41,8 @@ public class LoginView{
     public void telaInicial(Cadastro cd) throws Exception{
         scanner = new Scanner(System.in);
         int chr;
-        int codigo;
-        System.out.println("Olá (user)");
+        int codigo = -1;
+        System.out.println("Olá (user) seu código de login é (código)");
         System.out.println("Lista de opções:");
         System.out.println("Atualizar sua conta: [A]");
         System.out.println("Remover sua conta: [R]");
@@ -49,12 +50,22 @@ public class LoginView{
         System.out.println("Sair [S]");
         chr = scanner.nextLine().charAt(0);
         if(chr == 'A' || chr == 'a'){
-            codigo = scanner.nextInt();
-            ArquivoSequencial.atualizar(cd,codigo);     
+            System.out.println("Digite seu cógido de login: ");
+            try{    
+                codigo = scanner.nextInt();
+            }catch(InputMismatchException e){ e.printStackTrace(); }// End catch
+            finally{
+                ArquivoSequencial.atualizar(cd,codigo);     
+            }// End finally
         }else if(chr == 'R' || chr == 'r'){
-            codigo = scanner.nextInt();
-            ArquivoSequencial.remove(cd,codigo);
-        }else if(chr == 'u' || chr == 'U'){
+           System.out.println("Digite seu código de login: ");
+            try{    
+                codigo = scanner.nextInt();
+            }catch(InputMismatchException e){ e.printStackTrace(); }// End catch
+            finally{
+                ArquivoSequencial.remove(cd,codigo);
+            }// End finally
+         }else if(chr == 'u' || chr == 'U'){
             // Code
         }else if(chr == 's' || chr == 'S'){
             // Code 
